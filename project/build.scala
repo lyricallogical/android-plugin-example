@@ -32,7 +32,8 @@ object AndroidBuild extends Build {
   lazy val overrideAndroidSettings = Seq (
     autoScalaLibrary in GlobalScope := true,
     scalaSource in Compile <<= (baseDirectory) (_ / "src_scala"),
-    useProguard := true // need for https://github.com/jberkel/android-plugin/issues/114
+    useProguard := true, // need for https://github.com/jberkel/android-plugin/issues/114
+    proguardOption := "-keep class scala.Function1"
   )
 
   lazy val main = Project (
