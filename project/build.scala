@@ -29,10 +29,16 @@ object General {
 }
 
 object AndroidBuild extends Build {
+  lazy val overrideAndroidSettings = Seq (
+    autoScalaLibrary in GlobalScope := true,
+    scalaSource in Compile <<= (baseDirectory) (_ / "src_scala"),
+    useProguard := true // need for https://github.com/jberkel/android-plugin/issues/114
+  )
+
   lazy val main = Project (
     "android_sbt",
     file("."),
-    settings = General.fullAndroidSettings ++ PlainJavaProject.settings
+    settings = General.fullAndroidSettings ++ PlainJavaProject.settings ++ inConfig(Android)(overrideAndroidSettings)
   )
 }
 
